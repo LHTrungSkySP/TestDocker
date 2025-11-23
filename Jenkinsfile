@@ -3,7 +3,7 @@ pipeline {
     environment {
         IMAGE_NAME = "testdocker_multi"
         CONTAINER_NAME = "testdocker_multi"
-        PORT_HOST = "2000"
+        PORT_HOST = "2001"
         PORT_CONTAINER = "8080"
         REPO_URL = "https://github.com/LHTrungSkySP/TestDocker.git"
     }

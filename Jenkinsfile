@@ -1,12 +1,20 @@
 pipeline {
     agent any
+    environment {
+        IMAGE_NAME = "testdocker_multi"
+        CONTAINER_NAME = "testdocker_multi"
+        PORT_HOST = "2000"
+        PORT_CONTAINER = "8080"
+        BRANCH_NAME = "dev"
+        URL = "https://github.com/LHTrungSkySP/TestDocker.git"
+    }
     stages {
         stage('Checkout branch') {
             steps {
                 git(
-                    branch: "${params.Branch_Name}",
+                    branch: "${BRANCH_NAME}",
                     credentialsId: "${env.GIT_CRED_ID}",
-                    url: "https://github.com/LHTrungSkySP/TestDocker.git"
+                    url: "${URL}"
                 )
             }
             post {
@@ -15,14 +23,17 @@ pipeline {
                 }
             }
         }
-        stage('Build image') {
+        stage('Build Image') {
             steps {
-                sh "docker build -t testdocker:latest ."
+                sh "docker build -t ${IMAGE_NAME}:latest ."
             }
         }
-        stage('Run container') {
+        stage('Deploy Container') {
             steps {
-                sh 'docker run -d --name testdocker -p 1000:8080 testdocker:latest'
+                sh '''
+                    docker rm -f ${CONTAINER_NAME} || true
+                    docker run -d --name ${CONTAINER_NAME} -p ${PORT_HOST}:${PORT_CONTAINER}:latest
+                '''
             }
         }
     }

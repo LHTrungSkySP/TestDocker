@@ -5,17 +5,18 @@ pipeline {
         CONTAINER_NAME = "testdocker_multi"
         PORT_HOST = "2000"
         PORT_CONTAINER = "8080"
-        BRANCH_NAME = "dev"
         REPO_URL = "https://github.com/LHTrungSkySP/TestDocker.git"
     }
     stages {
         stage('Checkout branch') {
             steps {
-                git(
-                    branch: "${BRANCH_NAME}",
-                    credentialsId: "${env.GIT_CRED_ID}",
-                    url: "${URL}"
-                )
+                checkout([$class: 'GitSCM',
+                    branches: [[name: env.BRANCH_NAME]],
+                    userRemoteConfigs: [[
+                        url: "${REPO_URL}",
+                        credentialsId: env.GIT_CRED_ID
+                    ]]
+                ])
             }
             post {
                 failure {

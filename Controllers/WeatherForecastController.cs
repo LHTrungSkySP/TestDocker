@@ -18,7 +18,7 @@ namespace TestDocker.Controllers
             _logger = logger;
         }
 
-        [HttpGet("get123456")]
+        [HttpGet("get")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

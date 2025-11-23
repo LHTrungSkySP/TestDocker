@@ -32,7 +32,7 @@ pipeline {
             steps {
                 sh '''
                     docker rm -f ${CONTAINER_NAME} || true
-                    docker run -d --name ${CONTAINER_NAME} -p ${PORT_HOST}:${PORT_CONTAINER}:latest
+                    docker run -d --name ${CONTAINER_NAME} -p ${PORT_HOST}:${PORT_CONTAINER} ${IMAGE_NAME}:latest
                 '''
             }
         }

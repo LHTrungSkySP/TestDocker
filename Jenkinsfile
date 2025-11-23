@@ -6,7 +6,7 @@ pipeline {
         PORT_HOST = "2000"
         PORT_CONTAINER = "8080"
         BRANCH_NAME = "dev"
-        URL = "https://github.com/LHTrungSkySP/TestDocker.git"
+        REPO_URL = "https://github.com/LHTrungSkySP/TestDocker.git"
     }
     stages {
         stage('Checkout branch') {

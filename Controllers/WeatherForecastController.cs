@@ -29,5 +29,11 @@ namespace TestDocker.Controllers
             })
             .ToArray();
         }
+
+        [HttpGet()]
+        public IActionResult GetList()
+        {
+            return Ok(new string[] { "value1", "value2" });
+        }
     }
 }

@@ -1,50 +1,29 @@
-﻿pipeline {
+pipeline {
     agent any
-
-    environment {
-        BUILD_CONFIG = "Release"
-        DOCKER_IMAGE = "testdocker"
-        DOCKER_TAG = "latest"
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Checkout branch') {
             steps {
-                checkout scm
+                git(
+                    branch: "${params.Branch_Name}",
+                    credentialsId: "${env.GIT_CRED_ID}",
+                    url: "https://github.com/LHTrungSkySP/TestDocker.git"
+                )
+            }
+            post {
+                failure {
+                    echo "Checkout project FAILURE"
+                }
             }
         }
-
-        stage('Restore') {
+        stage('Build image') {
             steps {
-                sh 'dotnet restore'
+                sh "docker build -t testdocker:latest ."
             }
         }
-
-        stage('Build') {
+        stage('Run container') {
             steps {
-                sh 'dotnet build -c $BUILD_CONFIG'
+                sh 'docker run -d --name testdocker -p 1000:8080 testdocker:latest'
             }
-        }
-
-        stage('Publish') {
-            steps {
-                sh 'dotnet publish -c $BUILD_CONFIG -o ./publish'
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                sh 'docker build -t $DOCKER_IMAGE:$DOCKER_TAG .'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo "Build success!"
-        }
-        failure {
-            echo "Build failed!"
         }
     }
 }

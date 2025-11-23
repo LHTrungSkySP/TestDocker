@@ -18,7 +18,7 @@ namespace TestDocker.Controllers
             _logger = logger;
         }
 
-        [HttpGet("get")]
+        [HttpGet("get123")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -28,6 +28,12 @@ namespace TestDocker.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet()]
+        public IActionResult GetList()
+        {
+            return Ok(new string[] { "value1", "value2" });
         }
     }
 }

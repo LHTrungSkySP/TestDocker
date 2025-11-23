@@ -33,7 +33,7 @@ namespace TestDocker.Controllers
         [HttpGet()]
         public IActionResult GetList()
         {
-            return Ok(new string[] { "value1", "value2" });
+            return Ok(new string[] { "value1", "valuejhihnhn2" });
         }
     }
 }
